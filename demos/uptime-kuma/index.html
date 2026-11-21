@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uptime Kuma — Tour Visual &amp; Teste Automatizado (demo.kuma.pet)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --bg: #0b0d11;
+      --bg-card: #141922;
+      --bg-subtle: #1b2230;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.16);
+      --text: #eef2f7;
+      --text-muted: #94a3b8;
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.14);
+      --danger: #ef4444;
+      --danger-soft: rgba(239, 68, 68, 0.14);
+      --indigo: #6366f1;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --border: rgba(15, 23, 42, 0.09);
+      --border-strong: rgba(15, 23, 42, 0.18);
+      --text: #0f172a;
+      --text-muted: #475569;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+    }
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .crumbs {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .crumbs a:hover { color: var(--text); text-decoration: underline; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-family: var(--font-mono);
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+    .pill.down {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, 0.28);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .btn:hover { border-color: var(--border-strong); }
+    .btn-primary {
+      background: var(--accent);
+      color: #052e16;
+      border-color: transparent;
+      font-weight: 600;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.85rem;
+      letter-spacing: -0.025em;
+    }
+    .lead {
+      margin: 0 0 24px;
+      color: var(--text-muted);
+      max-width: 78ch;
+      font-size: 0.96rem;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 0.98rem;
+    }
+    .card p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .section-title {
+      font-size: 1.2rem;
+      margin: 34px 0 14px;
+      letter-spacing: -0.015em;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+      gap: 18px;
+    }
+    .shot-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .shot-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-bottom: 1px solid var(--border);
+      cursor: zoom-in;
+    }
+    .shot-body {
+      padding: 16px;
+    }
+    .shot-body h4 {
+      margin: 0 0 4px;
+      font-size: 0.96rem;
+    }
+    .shot-body p {
+      margin: 0;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 11px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: var(--bg-subtle);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+    tr:last-child td { border-bottom: none; }
+    code, pre {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+    }
+    pre {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      overflow-x: auto;
+    }
+    dialog.lightbox {
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      background: var(--bg-card);
+      padding: 8px;
+      max-width: 94vw;
+      max-height: 92vh;
+    }
+    dialog.lightbox::backdrop { background: rgba(0, 0, 0, 0.8); }
+    dialog.lightbox img { max-width: 100%; max-height: 85vh; display: block; border-radius: 8px; }
+    @media (max-width: 640px) {
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="crumbs">
+        <a href="../../index.html">&larr; Voltar ao Catálogo (1.061 serviços)</a>
+        <span>/</span>
+        <strong>Demonstração Uptime Kuma</strong>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span id="overallBadge" class="pill">Carregando status...</span>
+        <a href="https://demo.kuma.pet/start-demo" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Abrir demo.kuma.pet</a>
+        <button id="themeBtn" class="btn" type="button">Alternar tema</button>
+      </div>
+    </div>
+
+    <h1>O que o Uptime Kuma entrega na prática</h1>
+    <p class="lead">
+      Como a instância de demonstração oficial (<code>https://demo.kuma.pet/start-demo</code>) inicia completamente vazia,
+      este agente automatizado via Playwright acessou o ambiente com as credenciais <code>kuma-admin</code>,
+      configurou o banco SQLite, criou <strong>5 monitores reais</strong> (incluindo verificação SSL e simulação de queda/incidente),
+      validou os gráficos de heartbeat e publicou uma <strong>Página de Status Pública</strong>.
+    </p>
+
+    <div class="grid-4">
+      <div class="card">
+        <h3>Monitoramento Multi-Protocolo</h3>
+        <p>Checa HTTP(s), palavras-chave na página, JSON Query, TCP, Ping, DNS, Docker containers, PostgreSQL/MySQL/Redis e Push.</p>
+      </div>
+      <div class="card">
+        <h3>Latência &amp; Heartbeat em Tempo Real</h3>
+        <p>Barras coloridas de histórico imediato via WebSocket, tempo de resposta em milissegundos (ping médio/mín/máx) e % de uptime (24h / 30d).</p>
+      </div>
+      <div class="card">
+        <h3>Alertas &amp; Certificado SSL</h3>
+        <p>Notifica quedas e recuperação em +90 canais (Telegram, Discord, Slack, E-mail, Webhook, WhatsApp/Evolution) e avisa vencimento de SSL.</p>
+      </div>
+      <div class="card">
+        <h3>Status Pages Públicas</h3>
+        <p>Cria portais limpos (ex: <code>/status/infra</code>) agrupando serviços para clientes ou equipes acompanharem incidentes e manutenções.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Cenário Populacional Testado pelo Agente</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Monitor Criado</th>
+          <th>Alvo / URL</th>
+          <th>Intervalo</th>
+          <th>Recursos Demonstrados</th>
+          <th>Estado Validado</th>
+        </tr>
+      </thead>
+      <tbody id="monitorsTableBody">
+        <tr><td colspan="5">Carregando relatório...</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="section-title">Tour Visual Real (Capturas do Ambiente Populado)</h2>
+    <div class="gallery">
+      <article class="shot-card">
+        <img src="screenshots/01-setup-conta.png" alt="Setup da conta administrativa kuma-admin" loading="lazy">
+        <div class="shot-body">
+          <h4>1. Inicialização &amp; Conta Administrativa</h4>
+          <p>Configuração automática do banco SQLite e criação do usuário <code>kuma-admin</code> dentro do container isolado do demo.</p>
+        </div>
+      </article>
+      <article class="shot-card">
+        <img src="screenshots/02-monitor-http-ssl.png" alt="Monitor HTTP com verificação SSL" loading="lazy">
+        <div class="shot-body">
+          <h4>2. Monitor HTTPS + Expiração de Certificado SSL</h4>
+          <p>Exibe o status <strong>Online (UP)</strong>, gráfico de latência em milissegundos, informações do certificado TLS e histórico de heartbeats.</p>
+        </div>
+      </article>
+      <article class="shot-card">
+        <img src="screenshots/03-monitor-api-up.png" alt="Monitor de API e infraestrutura Cloudflare" loading="lazy">
+        <div class="shot-body">
+          <h4>3. Múltiplos Monitores Ativos (APIs &amp; Infraestrutura)</h4>
+          <p>Acompanhamento simultâneo da API do GitHub e Cloudflare Edge (1.1.1.1) com barras de disponibilidade lado a lado.</p>
+        </div>
+      </article>
+      <article class="shot-card">
+        <img src="screenshots/04-monitor-incidente-down.png" alt="Simulação de incidente DOWN" loading="lazy">
+        <div class="shot-body">
+          <h4>4. Detecção de Queda / Incidente (<span style="color:#ef4444">DOWN</span>)</h4>
+          <p>Demonstra como o Uptime Kuma sinaliza falhas em vermelho, contabiliza indisponibilidade e dispara alertas imediatos.</p>
+        </div>
+      </article>
+      <article class="shot-card">
+        <img src="screenshots/05-dashboard-geral.png" alt="Dashboard geral do Uptime Kuma" loading="lazy">
+        <div class="shot-body">
+          <h4>5. Dashboard Geral Consolidado</h4>
+          <p>Visão executiva com total de monitores Online, Offline, em Manutenção, Pausados e log recente de eventos.</p>
+        </div>
+      </article>
+      <article class="shot-card">
+        <img src="screenshots/06-status-page-publica.png" alt="Status Page Pública" loading="lazy">
+        <div class="shot-body">
+          <h4>6. Página de Status Pública (<code>/status/infra</code>)</h4>
+          <p>Portal público customizável onde usuários finais visualizam a saúde agregada de cada grupo de serviços sem fazer login.</p>
+        </div>
+      </article>
+    </div>
+
+    <h2 class="section-title">Execução do Agente no Navegador</h2>
+    <p class="lead" style="margin-bottom:10px;">
+      Para ver o agente interagindo ao vivo no seu navegador (abrindo o Chromium e preenchendo tudo na sua frente em tempo real):
+    </p>
+    <pre><code>/opt/dev-projects/GREENYARD-AI-NFL-VALUE-BETTING-ENGINE/backend/.venv/bin/python3 \
+  demos/uptime-kuma/scripts/run_kuma_demo.py --headed --hold 120</code></pre>
+
+    <h2 class="section-title">Etapas do Teste Automatizado</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Etapa</th>
+          <th>Status</th>
+          <th>Detalhes</th>
+        </tr>
+      </thead>
+      <tbody id="stepsTableBody">
+        <tr><td colspan="3">Carregando etapas...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <dialog id="lightbox" class="lightbox">
+    <img id="lightboxImg" src="" alt="Prévia ampliada">
+  </dialog>
+
+  <script src="results/report-data.js"></script>
+  <script>
+    const themeBtn = document.getElementById("themeBtn");
+    themeBtn.addEventListener("click", () => {
+      const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+    });
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    document.querySelectorAll(".shot-card img").forEach((img) => {
+      img.addEventListener("click", () => {
+        lightboxImg.src = img.src;
+        lightbox.showModal();
+      });
+    });
+    lightbox.addEventListener("click", () => lightbox.close());
+
+    function renderReport(rep) {
+      const badge = document.getElementById("overallBadge");
+      badge.textContent = `E2E: ${rep.overall_status} (${rep.monitors_created.length} monitores)`;
+      if (rep.overall_status !== "PASS") badge.classList.add("down");
+
+      const mBody = document.getElementById("monitorsTableBody");
+      mBody.innerHTML = rep.monitors_created.map((m) => `
+        <tr>
+          <td><strong>${m.name}</strong></td>
+          <td><code>${m.url}</code></td>
+          <td>${m.interval_sec}s</td>
+          <td>${m.ssl_expiry_check ? "HTTP + Certificado SSL" : (m.expected_state === "DOWN" ? "Simulação de Incidente" : "Latência & Uptime")}</td>
+          <td><span class="pill ${m.expected_state === "DOWN" ? "down" : ""}">${m.expected_state}</span></td>
+        </tr>
+      `).join("");
+
+      const sBody = document.getElementById("stepsTableBody");
+      sBody.innerHTML = rep.steps.map((s) => `
+        <tr>
+          <td><strong>${s.title}</strong></td>
+          <td><span class="pill ${s.status === "FAIL" ? "down" : ""}">${s.status}</span></td>
+          <td>${s.details}</td>
+        </tr>
+      `).join("");
+    }
+
+    if (window.KUMA_REPORT) {
+      renderReport(window.KUMA_REPORT);
+    } else {
+      fetch("results/test-report.json")
+        .then((r) => r.json())
+        .then(renderReport)
+        .catch(() => {
+          document.getElementById("overallBadge").textContent = "Execute run_kuma_demo.py para gerar relatório";
+        });
+    }
+  </script>
+</body>
+</html>

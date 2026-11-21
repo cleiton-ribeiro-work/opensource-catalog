@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Catálogo completo e minimalista com 1.061 serviços open-source e self-hosted organizados por categoria, com descrição objetiva, site oficial, repositório Git e demonstração.">
+  <title>Catálogo Open-Source &amp; Self-Hosted</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="topbar-inner">
+      <div class="brand-group">
+        <button id="mobileMenuBtn" class="icon-btn mobile-only" type="button" aria-label="Abrir menu de categorias" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <a href="#top" class="brand" id="brandHome">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+              <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+              <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+            </svg>
+          </span>
+          <span class="brand-text">
+            <strong>OpenSource Catalog</strong>
+            <small id="headerCountBadge">Carregando...</small>
+          </span>
+        </a>
+      </div>
+
+      <div class="search-wrap" role="search">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Buscar entre 1.061 serviços, descrições ou categorias..."
+          autocomplete="off"
+          aria-label="Buscar serviços"
+        >
+        <button id="clearSearchBtn" class="clear-search hidden" type="button" aria-label="Limpar busca">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <kbd class="search-kbd" aria-hidden="true">/</kbd>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="view-switcher" role="group" aria-label="Modo de visualização">
+          <button class="view-btn active" data-view="grouped" type="button" title="Agrupado por categoria">Categorias</button>
+          <button class="view-btn" data-view="grid" type="button" title="Grade contínua">Grade</button>
+          <button class="view-btn" data-view="table" type="button" title="Tabela compacta">Tabela</button>
+        </div>
+
+        <div class="export-dropdown">
+          <button id="exportToggleBtn" class="btn-secondary" type="button" aria-haspopup="true" aria-expanded="false" title="Exportar catálogo filtrado">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Exportar</span>
+          </button>
+          <div id="exportMenu" class="dropdown-menu hidden" role="menu">
+            <button type="button" data-export="json" role="menuitem">JSON (dados atuais)</button>
+            <button type="button" data-export="csv" role="menuitem">CSV (planilha)</button>
+            <button type="button" data-export="md" role="menuitem">Markdown (.md)</button>
+          </div>
+        </div>
+
+        <button id="themeToggleBtn" class="icon-btn" type="button" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout" id="top">
+    <div id="sidebarBackdrop" class="sidebar-backdrop hidden"></div>
+    <aside id="sidebar" class="sidebar" aria-label="Categorias e filtros">
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Recomendação de mercado</div>
+        <div class="quick-filters" role="group" aria-label="Filtrar por recomendação">
+          <button class="filter-chip rec-chip" data-rec="leader" type="button">
+            <span><span class="rec-dot leader"></span>Líderes de Mercado</span>
+            <span class="chip-count" id="statLeader">0</span>
+          </button>
+          <button class="filter-chip rec-chip" data-rec="recommended" type="button">
+            <span><span class="rec-dot recommended"></span>Recomendados</span>
+            <span class="chip-count" id="statRecommended">0</span>
+          </button>
+          <button class="filter-chip rec-chip" data-rec="niche" type="button">
+            <span><span class="rec-dot niche"></span>Nicho / Emergentes</span>
+            <span class="chip-count" id="statNiche">0</span>
+          </button>
+          <button class="filter-chip rec-chip" data-rec="caution" type="button">
+            <span><span class="rec-dot caution"></span>Obsoletos / Atenção</span>
+            <span class="chip-count" id="statCaution">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Filtros rápidos</div>
+        <div class="quick-filters" role="group" aria-label="Filtros rápidos">
+          <button class="filter-chip" data-filter="activeOnly" type="button">
+            <span>Ativos (commits recentes)</span>
+            <span class="chip-count" id="statActive">0</span>
+          </button>
+          <button class="filter-chip" data-filter="stars10k" type="button">
+            <span>+10k Estrelas Git</span>
+            <span class="chip-count" id="statStars10k">0</span>
+          </button>
+          <button class="filter-chip" data-filter="popular" type="button">
+            <span>Destaques</span>
+            <span class="chip-count" id="statPopular">0</span>
+          </button>
+          <button class="filter-chip" data-filter="git" type="button">
+            <span>Com Git</span>
+            <span class="chip-count" id="statGit">0</span>
+          </button>
+          <button class="filter-chip" data-filter="demo" type="button">
+            <span>Com Demo</span>
+            <span class="chip-count" id="statDemo">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-section sidebar-categories-wrap">
+        <div class="sidebar-heading">Categorias</div>
+        <nav id="categoryNav" class="category-nav" aria-label="Navegação por categoria"></nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-stats">
+          <div><strong id="statTotal">0</strong><span>Serviços</span></div>
+          <div><strong id="statCats">0</strong><span>Categorias</span></div>
+          <div><strong id="statOfficial">0</strong><span>Sites</span></div>
+        </div>
+        <a href="CATALOGO.md" class="sidebar-doc-link" target="_blank" rel="noopener noreferrer">
+          Abrir versão Markdown (CATALOGO.md) &rarr;
+        </a>
+      </div>
+    </aside>
+
+    <main class="content" id="mainContent">
+      <section class="hero-bar">
+        <div class="hero-info">
+          <h1 id="activeHeading">Todos os Serviços Open-Source &amp; Self-Hosted</h1>
+          <p id="activeSubheading">Explore serviços auto-hospedados organizados por categoria com página oficial, código-fonte Git e demonstrações ao vivo.</p>
+        </div>
+        <div class="results-meta">
+          <select id="sortSelect" class="sort-select" aria-label="Ordenar serviços">
+            <option value="score-desc">Ordenar: Maior Score de Mercado</option>
+            <option value="stars-desc">Ordenar: Mais Estrelas no Git</option>
+            <option value="recent">Ordenar: Atualizados Recentemente</option>
+            <option value="name-asc">Ordenar: Nome (A–Z)</option>
+            <option value="score-asc">Ordenar: Obsoletos / Menor Score</option>
+          </select>
+          <span id="resultsCounter" class="results-badge">0 resultados</span>
+          <button id="resetFiltersBtn" class="btn-link hidden" type="button">Limpar filtros</button>
+        </div>
+      </section>
+
+      <section id="catalogContainer" class="catalog-container" aria-live="polite"></section>
+
+      <div id="emptyState" class="empty-state hidden">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <h2>Nenhum serviço encontrado</h2>
+        <p>Tente ajustar o termo de busca ou remover os filtros selecionados.</p>
+        <button id="emptyResetBtn" class="btn-primary" type="button">Mostrar todos os serviços</button>
+      </div>
+
+      <footer class="footer">
+        <p>Catálogo estruturado em HTML5, CSS3 e JavaScript puro &middot; <span id="footerStats"></span></p>
+      </footer>
+    </main>
+  </div>
+
+  <button id="backToTopBtn" class="back-to-top hidden" type="button" aria-label="Voltar ao topo" title="Voltar ao topo">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <dialog id="serviceModal" class="modal" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div id="modalIconWrap" class="card-icon-wrap"></div>
+          <div>
+            <span id="modalCategory" class="badge"></span>
+            <h2 id="modalTitle"></h2>
+          </div>
+        </div>
+        <button id="modalCloseBtn" class="icon-btn" type="button" aria-label="Fechar janela">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="modalDesc" class="modal-desc"></p>
+        <div id="modalScoreCard" class="modal-score-card"></div>
+        <div id="modalFeaturesWrap" class="modal-features hidden">
+          <h3>Destaques e recursos</h3>
+          <ul id="modalFeaturesList"></ul>
+        </div>
+        <div id="modalLinks" class="modal-links"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

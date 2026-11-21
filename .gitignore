@@ -1,0 +1,43 @@
+# Variáveis de ambiente locais (nunca versionar segredos reais)
+.env
+.env.*
+!.env.example
+
+# Python & Ambientes Virtuais
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+.venv/
+venv/
+ENV/
+.pytest_cache/
+.ruff_cache/
+
+# Node.js
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+
+# Playwright & Logs de Erro Temporários
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+demos/**/screenshots/error-state.png
+
+# Cache temporário
+.cache/
+tmp/
+*.tmp
+*.log
+
+# Editores, IDEs e Sistema Operacional
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
